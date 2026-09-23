@@ -3,7 +3,8 @@ on: [push]
 jobs:
     probar:
         runs-on: self-hosted
-        steps:- name: Comparar secret con variable local
+        steps:
+        - name: Comparar secret con variable local
             env:
                 TOKEN: ${{ secrets.DEV_TOKEN }}
             run: |
