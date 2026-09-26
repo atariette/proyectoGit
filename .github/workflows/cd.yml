@@ -1,0 +1,23 @@
+name: validate-dev
+on: [push,pull_request,workflow_dispatch]
+    pull_request:
+        types:
+            [opened, synchronize, reopened]
+    branches:
+        - main
+jobs:
+    probar:
+        runs-on: self-hosted
+        needs: Runner de produccion
+        steps:
+            - name: update-readme
+              env:
+                  TOKEN: ${{ secrets.PROD_TOKEN }}
+              run: |
+                    if ($env:TOKEN -eq $env:LOCAL_PROD_TOKEN) {
+                        Write-Host "Coinciden "
+                    } else {
+                        Write-Host "No coinciden "
+                        exit 1
+                    }
+                  echo "AppVersion-1" >> README.md
