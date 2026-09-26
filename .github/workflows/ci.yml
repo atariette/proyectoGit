@@ -1,22 +1,31 @@
 name: update-readme
-on: [push,pull_request,workflow_dispatch]
-    pull_request:
-        types:
-            [opened, synchronize, reopened]
+
+on:
+  push:
     branches:
-        - develop
+      - develop
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - develop
+  workflow_dispatch:
+
 jobs:
-    probar:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Comparar secret con variable local
-              env:
-                  TOKEN: ${{ secrets.DEV_TOKEN }}
-              run: |
-                    if ($env:TOKEN -eq $env:LOCAL_DEV_TOKEN) {
-                        Write-Host "Coinciden "
-                    } else {
-                        Write-Host "No coinciden "
-                        exit 1
-                    }
-                  echo "Añadida feature: develop/feature" >> README.md
+  probar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Comparar secret con variable local
+        env:
+          TOKEN: ${{ secrets.DEV_TOKEN }}
+          LOCAL_DEV_TOKEN: ${{ secrets.LOCAL_DEV_TOKEN }}
+        run: |
+          if ($env:TOKEN -eq $env:LOCAL_PROD_TOKEN) {
+              echo "Coinciden"
+              echo "Añadida feature: develop/feature" >> README.md
+              } else {
+              echo "No coinciden"
+              exit 1
+          }
