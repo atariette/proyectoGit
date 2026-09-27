@@ -8,9 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: update-readme
-        env:
-          TOKEN: ${{ secrets.PROD_TOKEN }}
-        run: echo "AppVersion-1" >> proyectoGit\README.md
+        run: |
+          echo "AppVersion-1" >> "C:\Users\eorid\git datacontrol\proyectoGit\README.md"
     
   job2:
     runs-on: self-hosted
