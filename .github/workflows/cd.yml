@@ -1,4 +1,4 @@
-name: validate-dev
+name: workflow2
 on:
   push:
     branches:
@@ -7,22 +7,21 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
-      - name: Job base
+      - name: update-readme
         env:
-          TOKEN: ${{ secrets.DEV_TOKEN }}
-        run: echo "Holiwi" >> "proyectoGit\README.md"
+          TOKEN: ${{ secrets.PROD_TOKEN }}
+        run: echo "AppVersion-1" >> proyectoGit\README.md
     
   job2:
     runs-on: self-hosted
     needs: job1
     steps:
-      - name: update-readme
+      - name: validate-dev
         env:
           TOKEN: ${{ secrets.PROD_TOKEN }}
         run: |
           if ($env:TOKEN -eq $env:LOCAL_PROD_TOKEN) {
               Write-Host "Coinciden "
-              echo "AppVersion-1" >> proyectoGit\README.md
           } else {
               Write-Host "No coinciden "
               exit 1
