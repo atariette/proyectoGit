@@ -3,27 +3,17 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    types: [opened, synchronize, reopened]
-    branches:
-      - main
-  workflow_dispatch:
-
 jobs:
   probar:
     runs-on: self-hosted
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: update-readme
         env:
           TOKEN: ${{ secrets.PROD_TOKEN }}
-        shell: pwsh
         run: |
           if ($env:TOKEN -eq $env:LOCAL_PROD_TOKEN) {
               Write-Host "Coinciden "
-              Add-Content -Path proyectoGit\README.md -Value "AppVersion-1"
+              echo "AppVersion-1" >> proyectoGit\README.md
           } else {
               Write-Host "No coinciden "
               exit 1
