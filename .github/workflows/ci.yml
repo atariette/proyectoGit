@@ -1,20 +1,27 @@
-name: update-readme
+name: workflow1
 on:
-  push: 
+  push:
     branches:
       - develop
 jobs:
-  probar:
+  job1:
     runs-on: ubuntu-latest
     steps:
-      - name: Actualizar README.md
+      - name: update-readme
+        run: |
+          echo "Añadida feature: develop" >> "C:\Users\eorid\git datacontrol\proyectoGit\README.md"
+    
+  job2:
+    runs-on: self-hosted
+    needs: job1
+    steps:
+      - name: validate-dev
         env:
           TOKEN: ${{ secrets.DEV_TOKEN }}
         run: |
           if ($env:TOKEN -eq $env:LOCAL_DEV_TOKEN) {
-              echo "Coinciden"
-              echo "Añadida feature: develop/feature" >> README.md
-              } else {
-              echo "No coinciden"
+              Write-Host "Coinciden "
+          } else {
+              Write-Host "No coinciden "
               exit 1
           }
