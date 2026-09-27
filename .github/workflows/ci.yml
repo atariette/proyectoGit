@@ -1,0 +1,33 @@
+name: workflow1
+on:
+  push:
+    branches:
+      - develop
+  pull_request: 
+    types: [opened, synchronize, reopened]
+    branches: 
+      - develop
+  workflow_dispatch: 
+  
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: update-readme
+        run: |
+          echo "Añadida feature: develop" >> "C:\Users\eorid\git datacontrol\proyectoGit\README.md"
+    
+  job2:
+    runs-on: self-hosted
+    needs: job1
+    steps:
+      - name: validate-dev
+        env:
+          TOKEN: ${{ secrets.DEV_TOKEN }}
+        run: |
+          if ($env:TOKEN -eq $env:LOCAL_DEV_TOKEN) {
+              Write-Host "Coinciden "
+          } else {
+              Write-Host "No coinciden "
+              exit 1
+          }
