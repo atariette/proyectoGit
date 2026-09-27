@@ -4,8 +4,17 @@ on:
     branches:
       - main
 jobs:
-  probar:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Job base
+        env:
+          TOKEN: ${{ secrets.DEV_TOKEN }}
+        run: echo "Holiwi" >> "proyectoGit\README.md"
+    
+  job2:
     runs-on: self-hosted
+    needs: job1
     steps:
       - name: update-readme
         env:
