@@ -1,0 +1,29 @@
+name: validate-dev
+on:
+  push:
+    branches:
+      - main
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Job base
+        env:
+          TOKEN: ${{ secrets.DEV_TOKEN }}
+        run: echo "Holiwi" >> "proyectoGit\README.md"
+    
+  job2:
+    runs-on: self-hosted
+    needs: job1
+    steps:
+      - name: update-readme
+        env:
+          TOKEN: ${{ secrets.PROD_TOKEN }}
+        run: |
+          if ($env:TOKEN -eq $env:LOCAL_PROD_TOKEN) {
+              Write-Host "Coinciden "
+              echo "AppVersion-1" >> proyectoGit\README.md
+          } else {
+              Write-Host "No coinciden "
+              exit 1
+          }

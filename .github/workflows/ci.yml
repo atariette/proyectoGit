@@ -1,0 +1,20 @@
+name: update-readme
+on:
+  push: 
+    branches:
+      - develop
+jobs:
+  probar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Actualizar README.md
+        env:
+          TOKEN: ${{ secrets.DEV_TOKEN }}
+        run: |
+          if ($env:TOKEN -eq $env:LOCAL_DEV_TOKEN) {
+              echo "Coinciden"
+              echo "Añadida feature: develop/feature" >> README.md
+              } else {
+              echo "No coinciden"
+              exit 1
+          }
